@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="PharmacyModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Drug">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="price" Type="Decimal" Precision="7" Scale="2" />
+    <Property Name="typeid" Type="Int32" />
+    <NavigationProperty Name="TypeOfDrug" Relationship="Self.FK__Drug__typeid__398D8EEE" FromRole="Drug" ToRole="TypeOfDrug" />
+    <Property Name="Deleted" Type="Boolean" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TypeOfDrug">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="type" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Drug" Relationship="Self.FK__Drug__typeid__398D8EEE" FromRole="TypeOfDrug" ToRole="Drug" />
+    <Property Name="Deleted" Type="Boolean" />
+  </EntityType>
+  <Association Name="FK__Drug__typeid__398D8EEE">
+    <End Role="TypeOfDrug" Type="Self.TypeOfDrug" Multiplicity="0..1" />
+    <End Role="Drug" Type="Self.Drug" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TypeOfDrug">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Drug">
+        <PropertyRef Name="typeid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="PharmacyEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Drug" EntityType="Self.Drug" />
+    <EntitySet Name="TypeOfDrug" EntityType="Self.TypeOfDrug" />
+    <AssociationSet Name="FK__Drug__typeid__398D8EEE" Association="Self.FK__Drug__typeid__398D8EEE">
+      <End Role="TypeOfDrug" EntitySet="TypeOfDrug" />
+      <End Role="Drug" EntitySet="Drug" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

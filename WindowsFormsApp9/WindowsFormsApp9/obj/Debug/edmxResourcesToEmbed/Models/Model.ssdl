@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="PharmacyModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Drug">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="price" Type="decimal" Precision="7" Scale="2" />
+    <Property Name="typeid" Type="int" />
+    <Property Name="Deleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TypeOfDrug">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="type" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Deleted" Type="bit" />
+  </EntityType>
+  <Association Name="FK__Drug__typeid__398D8EEE">
+    <End Role="TypeOfDrug" Type="Self.TypeOfDrug" Multiplicity="0..1" />
+    <End Role="Drug" Type="Self.Drug" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TypeOfDrug">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Drug">
+        <PropertyRef Name="typeid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="PharmacyModelStoreContainer">
+    <EntitySet Name="Drug" EntityType="Self.Drug" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TypeOfDrug" EntityType="Self.TypeOfDrug" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Drug__typeid__398D8EEE" Association="Self.FK__Drug__typeid__398D8EEE">
+      <End Role="TypeOfDrug" EntitySet="TypeOfDrug" />
+      <End Role="Drug" EntitySet="Drug" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
